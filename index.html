@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Management System</title>
+    <!-- Tailwind CSS -->
+    <script src="https://jsdelivr.net"></script>
+    <!-- HTML5-QRCODE Library for Scanner -->
+    <script src="https://cloudflare.com"></script>
+</head>
+<body class="bg-gray-100 p-4 font-sans">
+
+    <!-- 1. LOGIN SCREEN -->
+    <div id="loginScreen" class="max-w-md mx-auto mt-20 bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-center text-blue-600 mb-4">🔐 Staff Login</h2>
+        <p class="text-gray-500 text-sm text-center mb-6">Stock portal istemaal karne ke liye password dalein</p>
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Enter System Password</label>
+            <input type="password" id="sysPassword" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring focus:ring-blue-200" placeholder="••••••••">
+        </div>
+        <button onclick="checkLogin()" class="w-full bg-blue-600 text-white p-3 rounded font-bold hover:bg-blue-700">Login to Dashboard</button>
+    </div>
+
+    <!-- 2. MAIN DASHBOARD (Shuru me hidden rahega jab tak login na ho) -->
+    <div id="mainDashboard" class="max-w-4xl mx-auto hidden">
+        <div class="flex justify-between items-center mb-6 bg-white p-4 rounded-lg shadow">
+            <h1 class="text-2xl font-bold text-blue-600">📦 Stock Management Portal</h1>
+            <button onclick="handleLogout()" class="bg-gray-500 text-white px-3 py-1 rounded text-sm hover:bg-gray-600">Logout</button>
+        </div>
+
+        <!-- Scanner Section -->
+        <div class="bg-white p-4 rounded-lg shadow mb-6">
+            <h2 class="text-xl font-semibold mb-2">📸 Barcode / QR Scanner</h2>
+            <div id="reader" class="w-full bg-black rounded" style="max-width: 500px; margin: auto;"></div>
+            <div class="flex gap-2 justify-center mt-3">
+                <button onclick="startScanner()" class="bg-green-500 text-white px-4 py-2 rounded font-bold hover:bg-green-600">Start Scanner</button>
+                <button onclick="stopScanner()" class="bg-red-500 text-white px-4 py-2 rounded font-bold hover:bg-red-600">Stop Scanner</button>
+            </div>
+        </div>
+
+        <!-- Add/Update Product Form -->
+        <div class="bg-white p-6 rounded-lg shadow mb-6">
+            <h2 class="text-xl font-semibold mb-4">🛒 Product Entry / Sale</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Barcode / SKU</label>
+                    <input type="text" id="prodBarcode" class="mt-1 block w-full p-2 border border-gray-300 rounded" placeholder="Scan or type barcode">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Product Name</label>
+                    <input type="text" id="prodName" class="mt-1 block w-full p-2 border border-gray-300 rounded" placeholder="e.g. Lays Chip">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Quantity (Tadad)</label>
+                    <input type="number" id="prodQty" class="mt-1 block w-full p-2 border border-gray-300 rounded" placeholder="e.g. 50">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Price (Per Item)</label>
+                    <input type="number" id="prodPrice" class="mt-1 block w-full p-2 border border-gray-300 rounded" placeholder="e.g. 100">
+                </div>
+            </div>
+            <div class="flex gap-4 mt-4">
+                <button onclick="handleAddStock()" class="flex-1 bg-blue-600 text-white p-3 rounded font-bold hover:bg-blue-700">➕ Add/Restock Item</button>
+                <button onclick="handleSale()" class="flex-1 bg-orange-500 text-white p-3 rounded font-bold hover:bg-orange-600">📉 Sell/Minus Item</button>
+            </div>
+        </div>
+
+        <!-- Inventory List -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h2 class="text-xl font-semibold mb-4">📋 Current Inventory Stock</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-3 border">Barcode</th>
+                            <th class="p-3 border">Product Name</th>
+                            <th class="p-3 border">Available Stock</th>
+                            <th class="p-3 border">Price (PKR)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stockTableBody">
+                        <!-- Data will load here automatically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
+    <!-- Our Logic Script -->
+    <script src="app.js"></script>
+</body>
+</html>
